@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import com.example.marketgo.model.BasketItem
+import kotlinx.coroutines.flow.map
 
 class MarketViewModel : ViewModel() {
 
@@ -51,4 +53,44 @@ class MarketViewModel : ViewModel() {
 
     fun getProductsByCategory(categoryId: Int): List<Product> =
         _products.value.filter { it.categoryId == categoryId }
+
+    private val _basket = MutableStateFlow<List<BasketItem>>(emptyList())
+    val basket: StateFlow<List<BasketItem>> = _basket.asStateFlow()
+
+    val totalPrice: StateFlow<Int> = _basket
+        .map { items -> items.sumOf { it.totalPrice } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val totalCount: StateFlow<Int> = _basket
+        .map { items -> items.sumOf { it.quantity } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    fun addToBasket(product: Product) {
+        _basket.update { items ->
+            val existing = items.find { it.product.id == product.id }
+            if (existing == null) {
+                items + BasketItem(product, 1)
+            } else {
+                items.map {
+                    if (it.product.id == product.id) it.copy(quantity = it.quantity + 1) else it
+                }
+            }
+        }
+    }
+
+    fun decreaseQuantity(productId: Int) {
+        _basket.update { items ->
+            items.mapNotNull { item ->
+                when {
+                    item.product.id != productId -> item
+                    item.quantity > 1 -> item.copy(quantity = item.quantity - 1)
+                    else -> null
+                }
+            }
+        }
+    }
+
+    fun removeFromBasket(productId: Int) {
+        _basket.update { items -> items.filter { it.product.id != productId } }
+    }
 }

@@ -72,7 +72,9 @@ fun CategoryProductsScreen(
                     product = product,
                     isFavorite = product.id in favoriteIds,
                     onFavoriteClick = { viewModel.toggleFavorite(product.id) },
-                    onAddToBasketClick = { /* TODO */ }
+                    onAddToBasketClick = {
+                        viewModel.addToBasket(product)
+                    }
                 )
             }
         }

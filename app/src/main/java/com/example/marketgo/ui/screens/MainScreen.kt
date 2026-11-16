@@ -48,7 +48,7 @@ fun MainScreen(
         favoriteIds = favoriteIds,
         onQueryChange = viewModel::onSearchQueryChange,
         onFavoriteClick = viewModel::toggleFavorite,
-        onAddToBasketClick = { /* TODO */ }
+        onAddToBasketClick = viewModel::addToBasket
     )
 }
 

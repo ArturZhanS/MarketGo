@@ -24,6 +24,8 @@ object Routes {
     const val CATEGORY_PRODUCTS = "category_products"
     const val CATEGORY_ID_ARG = "categoryId"
     fun categoryProducts(categoryId: Int) = "$CATEGORY_PRODUCTS/$categoryId"
+
+    const val CHECKOUT = "checkout"
 }
 
 data class BottomNavItem(
