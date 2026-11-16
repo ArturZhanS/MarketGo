@@ -24,6 +24,7 @@ import androidx.navigation.navArgument
 import com.example.marketgo.ui.screens.CategoryProductsScreen
 import com.example.marketgo.ui.screens.CategoryScreen
 import com.example.marketgo.ui.screens.BasketScreen
+import com.example.marketgo.ui.screens.CheckoutScreen
 
 @Composable
 fun AppNavigation(
@@ -89,7 +90,15 @@ fun AppNavigation(
                     onBuyClick = { navController.navigate(Routes.CHECKOUT) }
                 )
             }
-            composable(Routes.CHECKOUT) { PlaceholderScreen("Checkout") }
+            composable(Routes.CHECKOUT) {
+                CheckoutScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onContinueShoppingClick = {
+                        navController.popBackStack(Routes.MAIN, inclusive = false)
+                    }
+                )
+            }
             composable(Routes.FAVORITES) { PlaceholderScreen("Favorites") }
             composable(Routes.PROFILE) { PlaceholderScreen("Profile") }
         }

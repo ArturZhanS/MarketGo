@@ -93,4 +93,12 @@ class MarketViewModel : ViewModel() {
     fun removeFromBasket(productId: Int) {
         _basket.update { items -> items.filter { it.product.id != productId } }
     }
+
+    private val _purchaseHistory = MutableStateFlow<List<BasketItem>>(emptyList())
+    val purchaseHistory: StateFlow<List<BasketItem>> = _purchaseHistory.asStateFlow()
+
+    fun completePurchase() {
+        _purchaseHistory.update { history -> history + _basket.value }
+        _basket.value = emptyList()
+    }
 }
