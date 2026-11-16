@@ -142,8 +142,7 @@ private fun NotFoundMessage(
 
 @Preview(
     showBackground = true,
-    showSystemUi = true
-)
+    showSystemUi = true)
 @Composable
 fun MainScreenPreview() {
     MarketGoTheme {

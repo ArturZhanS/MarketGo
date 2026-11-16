@@ -35,7 +35,6 @@ fun WelcomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .systemBarsPadding()
             .padding(horizontal = 24.dp, vertical = 16.dp)
     ) {
         Box(
