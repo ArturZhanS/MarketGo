@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.marketgo.ui.components.MarketBottomBar
 import com.example.marketgo.ui.screens.MainScreen
 import com.example.marketgo.ui.screens.PlaceholderScreen
 import com.example.marketgo.ui.screens.WelcomeScreen
@@ -31,22 +32,17 @@ fun AppNavigation(
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar {
-                    bottomNavItems.forEach { item ->
-                        NavigationBarItem(
-                            selected = currentRoute == item.route,
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(Routes.MAIN) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            icon = { Icon(item.icon, contentDescription = item.label) },
-                            label = { Text(item.label) }
-                        )
+                MarketBottomBar(
+                    items = bottomNavItems,
+                    currentRoute = currentRoute,
+                    onItemClick = { route ->
+                        navController.navigate(route) {
+                            popUpTo(Routes.MAIN) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
-                }
+                )
             }
         }
     ) { innerPadding ->
