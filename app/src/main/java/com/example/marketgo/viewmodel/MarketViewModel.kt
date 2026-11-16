@@ -46,4 +46,9 @@ class MarketViewModel : ViewModel() {
             if (productId in ids) ids - productId else ids + productId
         }
     }
+
+    fun getCategory(id: Int): Category? = categories.find { it.id == id }
+
+    fun getProductsByCategory(categoryId: Int): List<Product> =
+        _products.value.filter { it.categoryId == categoryId }
 }

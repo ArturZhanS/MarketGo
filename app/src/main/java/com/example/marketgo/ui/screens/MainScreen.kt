@@ -64,7 +64,9 @@ fun MainScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                color = MaterialTheme.colorScheme.background
+            )
             .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
@@ -79,7 +81,6 @@ fun MainScreenContent(
             onQueryChange = onQueryChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-
         if (products.isEmpty()) {
             NotFoundMessage(query = query)
         } else {

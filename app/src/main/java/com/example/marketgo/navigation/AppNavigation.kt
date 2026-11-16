@@ -19,6 +19,10 @@ import com.example.marketgo.ui.screens.MainScreen
 import com.example.marketgo.ui.screens.PlaceholderScreen
 import com.example.marketgo.ui.screens.WelcomeScreen
 import com.example.marketgo.viewmodel.MarketViewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.marketgo.ui.screens.CategoryProductsScreen
+import com.example.marketgo.ui.screens.CategoryScreen
 
 @Composable
 fun AppNavigation(
@@ -61,7 +65,23 @@ fun AppNavigation(
                 )
             }
             composable(Routes.MAIN) { MainScreen(viewModel) }
-            composable(Routes.CATEGORY) { PlaceholderScreen("Category") }
+            composable(Routes.CATEGORY) {
+                CategoryScreen(
+                    categories = viewModel.categories,
+                    onCategoryClick = { id -> navController.navigate(Routes.categoryProducts(id)) }
+                )
+            }
+            composable(
+                route = "${Routes.CATEGORY_PRODUCTS}/{${Routes.CATEGORY_ID_ARG}}",
+                arguments = listOf(navArgument(Routes.CATEGORY_ID_ARG) { type = NavType.IntType })
+            ) { entry ->
+                val categoryId = entry.arguments?.getInt(Routes.CATEGORY_ID_ARG) ?: 0
+                CategoryProductsScreen(
+                    viewModel = viewModel,
+                    categoryId = categoryId,
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
             composable(Routes.BASKET) { PlaceholderScreen("Basket") }
             composable(Routes.FAVORITES) { PlaceholderScreen("Favorites") }
             composable(Routes.PROFILE) { PlaceholderScreen("Profile") }
