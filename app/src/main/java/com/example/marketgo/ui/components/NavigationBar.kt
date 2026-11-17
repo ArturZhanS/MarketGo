@@ -46,6 +46,7 @@ fun MarketBottomBar(
                 val selected = currentRoute == item.route
                 val color = if (selected) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+
                 Column(
                     modifier = Modifier
                         .weight(1f)
