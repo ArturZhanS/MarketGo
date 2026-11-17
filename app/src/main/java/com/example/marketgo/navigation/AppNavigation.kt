@@ -25,6 +25,7 @@ import com.example.marketgo.ui.screens.CategoryProductsScreen
 import com.example.marketgo.ui.screens.CategoryScreen
 import com.example.marketgo.ui.screens.BasketScreen
 import com.example.marketgo.ui.screens.CheckoutScreen
+import com.example.marketgo.ui.screens.FavoritesScreen
 
 @Composable
 fun AppNavigation(
@@ -66,7 +67,9 @@ fun AppNavigation(
                     }
                 )
             }
-            composable(Routes.MAIN) { MainScreen(viewModel) }
+            composable(Routes.MAIN) {
+                MainScreen(viewModel)
+            }
             composable(Routes.CATEGORY) {
                 CategoryScreen(
                     categories = viewModel.categories,
@@ -99,7 +102,9 @@ fun AppNavigation(
                     }
                 )
             }
-            composable(Routes.FAVORITES) { PlaceholderScreen("Favorites") }
+            composable(Routes.FAVORITES) {
+                FavoritesScreen(viewModel)
+            }
             composable(Routes.PROFILE) { PlaceholderScreen("Profile") }
         }
     }

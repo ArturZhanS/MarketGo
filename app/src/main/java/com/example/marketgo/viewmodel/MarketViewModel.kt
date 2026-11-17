@@ -101,4 +101,13 @@ class MarketViewModel : ViewModel() {
         _purchaseHistory.update { history -> history + _basket.value }
         _basket.value = emptyList()
     }
+
+    val favoriteProducts: StateFlow<List<Product>> =
+        combine(_products, _favoriteIds) { list, ids ->
+            list.filter { it.id in ids }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 }
