@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import com.example.marketgo.model.BasketItem
 import kotlinx.coroutines.flow.map
+import com.example.marketgo.model.Order
 
 class MarketViewModel : ViewModel() {
 
@@ -94,14 +95,6 @@ class MarketViewModel : ViewModel() {
         _basket.update { items -> items.filter { it.product.id != productId } }
     }
 
-    private val _purchaseHistory = MutableStateFlow<List<BasketItem>>(emptyList())
-    val purchaseHistory: StateFlow<List<BasketItem>> = _purchaseHistory.asStateFlow()
-
-    fun completePurchase() {
-        _purchaseHistory.update { history -> history + _basket.value }
-        _basket.value = emptyList()
-    }
-
     val favoriteProducts: StateFlow<List<Product>> =
         combine(_products, _favoriteIds) { list, ids ->
             list.filter { it.id in ids }
@@ -110,4 +103,20 @@ class MarketViewModel : ViewModel() {
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    private val _orders = MutableStateFlow<List<Order>>(emptyList())
+    val orders: StateFlow<List<Order>> = _orders.asStateFlow()
+
+    fun completePurchase() {
+        val currentItems = _basket.value
+        if (currentItems.isEmpty()) return
+
+        val order = Order(
+            id = _orders.value.size + 1,
+            items = currentItems,
+            createdAt = System.currentTimeMillis()
+        )
+        _orders.update { it + order }
+        _basket.value = emptyList()
+    }
 }

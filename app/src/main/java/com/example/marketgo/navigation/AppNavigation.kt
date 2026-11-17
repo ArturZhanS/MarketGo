@@ -26,6 +26,8 @@ import com.example.marketgo.ui.screens.CategoryScreen
 import com.example.marketgo.ui.screens.BasketScreen
 import com.example.marketgo.ui.screens.CheckoutScreen
 import com.example.marketgo.ui.screens.FavoritesScreen
+import com.example.marketgo.ui.screens.ProfileScreen
+import com.example.marketgo.ui.screens.PurchaseHistoryScreen
 
 @Composable
 fun AppNavigation(
@@ -105,7 +107,18 @@ fun AppNavigation(
             composable(Routes.FAVORITES) {
                 FavoritesScreen(viewModel)
             }
-            composable(Routes.PROFILE) { PlaceholderScreen("Profile") }
+            composable(Routes.PROFILE) {
+                ProfileScreen(
+                    viewModel = viewModel,
+                    onHistoryClick = { navController.navigate(Routes.HISTORY) }
+                )
+            }
+            composable(Routes.HISTORY) {
+                PurchaseHistoryScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
